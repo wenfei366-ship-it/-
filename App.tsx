@@ -69,6 +69,10 @@ const App: React.FC = () => {
     }
   };
 
+  const handleUpdateTranscript = (newText: string) => {
+    setTranscription(prev => prev ? { ...prev, text: newText } : null);
+  };
+
   const handleGenerateScript = async () => {
     if (!transcription) return;
 
@@ -169,6 +173,7 @@ const App: React.FC = () => {
             transcription={transcription}
             onGenerateScript={handleGenerateScript}
             isGenerating={appState === AppState.GENERATING_SCRIPT}
+            onUpdateTranscript={handleUpdateTranscript}
           />
         )}
 

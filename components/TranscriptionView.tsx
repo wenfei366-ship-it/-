@@ -6,12 +6,14 @@ interface TranscriptionViewProps {
   transcription: TranscriptionResult;
   onGenerateScript: () => void;
   isGenerating: boolean;
+  onUpdateTranscript: (text: string) => void;
 }
 
 export const TranscriptionView: React.FC<TranscriptionViewProps> = ({
   transcription,
   onGenerateScript,
   isGenerating,
+  onUpdateTranscript,
 }) => {
   return (
     <div className="w-full max-w-4xl mx-auto animate-fade-in space-y-8">
@@ -32,21 +34,26 @@ export const TranscriptionView: React.FC<TranscriptionViewProps> = ({
       </div>
 
       {/* Transcription Content */}
-      <div className="bg-zinc-900/50 rounded-xl border border-zinc-800 p-6 relative overflow-hidden group">
-        <div className="absolute top-0 right-0 p-4 opacity-0 group-hover:opacity-100 transition-opacity">
-            <Edit3 className="w-5 h-5 text-zinc-500 hover:text-zinc-300 cursor-pointer" />
+      <div className="relative group">
+        <div className="absolute top-4 right-4 z-10 pointer-events-none opacity-50 group-hover:opacity-100 transition-opacity">
+            <div className="flex items-center gap-2 text-xs text-zinc-500 bg-zinc-900/80 px-2 py-1 rounded backdrop-blur-sm border border-zinc-800">
+                <Edit3 className="w-3 h-3" />
+                <span>Editable</span>
+            </div>
         </div>
-        <div className="prose prose-invert prose-zinc max-w-none max-h-[400px] overflow-y-auto pr-2 custom-scrollbar">
-            <p className="whitespace-pre-wrap leading-relaxed text-zinc-300">
-                {transcription.text}
-            </p>
-        </div>
+        <textarea
+            value={transcription.text}
+            onChange={(e) => onUpdateTranscript(e.target.value)}
+            className="w-full h-[400px] bg-zinc-900/50 rounded-xl border border-zinc-800 p-6 text-zinc-300 leading-relaxed focus:outline-none focus:ring-1 focus:ring-gold-500/50 focus:border-gold-500/50 transition-all resize-y font-sans custom-scrollbar"
+            placeholder="Transcription text..."
+            spellCheck={false}
+        />
       </div>
 
       {/* Action Area */}
       <div className="flex flex-col items-center justify-center py-8 space-y-4">
         <p className="text-zinc-400 text-center max-w-md">
-          The raw material is ready. Shall we proceed to the cutting room to create your video memoir script?
+          Review and edit the transcript above if needed, then proceed to generate your script.
         </p>
         <button
           onClick={onGenerateScript}
