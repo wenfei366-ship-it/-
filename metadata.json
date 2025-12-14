@@ -1,0 +1,7 @@
+{
+  "name": "录音转脚本",
+  "description": "An AI-powered video memoir director that transcribes interviews and generates cinematic video scripts.",
+  "requestFramePermissions": [
+    "microphone"
+  ]
+}
